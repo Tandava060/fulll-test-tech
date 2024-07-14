@@ -67,11 +67,11 @@ Feature: Park a vehicle
 
 ### Definitions:
 
-- **Vehicle**: a car, truck, motocycle, or any transportation mode that can help
-  me to move from point A to point B on planet earth.
-- **Fleet**: a collection a distinct vehicles.
-- **Location**: a way to localize on planet earth, like GPS coordinates
-  for example.
+-   **Vehicle**: a car, truck, motocycle, or any transportation mode that can help
+    me to move from point A to point B on planet earth.
+-   **Fleet**: a collection a distinct vehicles.
+-   **Location**: a way to localize on planet earth, like GPS coordinates
+    for example.
 
 #### Guidelines
 
@@ -96,15 +96,14 @@ Feature: Park a vehicle
 
 Note : We use DDD and suggest its use but all modern architectures (Clean architecture, Hexagonal architecture, Port and Adapters, ...) are acceptable
 
-
 #### Tips
 
-- Try to first write bdd/gherkin tests, then implement the code.
-- Ask you: how many entities do I have?
-- Ask you: how many Commands? Queries?
-- At the moment, you don't have to persist data elsewhere than **in memory**.
-- Here's an indication of ≈ expected number of line of codes, for implementations
-  in **php** and **javascript**:
+-   Try to first write bdd/gherkin tests, then implement the code.
+-   Ask you: how many entities do I have?
+-   Ask you: how many Commands? Queries?
+-   At the moment, you don't have to persist data elsewhere than **in memory**.
+-   Here's an indication of ≈ expected number of line of codes, for implementations
+    in **php** and **javascript**:
 
 ## Step 2
 
@@ -133,12 +132,11 @@ Please wrap the part 1 into a complete application. We want:
 
 ## Step 3
 
-- For code quality, you can use some tools : which one and why (in a few words) ?
-- you can consider to setup a ci/cd process : describe the necessary actions in a few words
-
+-   For code quality, you can use some tools : which one and why (in a few words) ?
+-   you can consider to setup a ci/cd process : describe the necessary actions in a few words
 
 #### Evaluation
 
-- Quality of the code.
-- Please be careful to not over engineer your solution!
-- Usage of good practices and modern programming language features.
+-   Quality of the code.
+-   Please be careful to not over engineer your solution!
+-   Usage of good practices and modern programming language features.
