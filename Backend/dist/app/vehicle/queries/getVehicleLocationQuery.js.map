@@ -1,0 +1,1 @@
+{"version":3,"file":"getVehicleLocationQuery.js","sourceRoot":"","sources":["../../../../src/app/vehicle/queries/getVehicleLocationQuery.ts"],"names":[],"mappings":";;;AAAA;IACI,iCAAmB,kBAA0B;QAA1B,uBAAkB,GAAlB,kBAAkB,CAAQ;IAAG,CAAC;IACrD,8BAAC;AAAD,CAAC,AAFD,IAEC;AAFY,0DAAuB"}
