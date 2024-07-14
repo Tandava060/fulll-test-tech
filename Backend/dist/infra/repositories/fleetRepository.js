@@ -37,29 +37,121 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.fleetRepository = exports.FleetRepository = void 0;
+var fleet_1 = require("../../domain/entities/fleet");
+var vehicle_1 = require("../../domain/entities/vehicle");
+var database_1 = require("../../infra/database");
+var location_1 = require("../../domain/valueObjects/location");
 var FleetRepository = /** @class */ (function () {
     function FleetRepository() {
-        this.fleets = [];
     }
-    FleetRepository.prototype.save = function (fleet) {
+    FleetRepository.prototype.createFleet = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
-            var index;
             return __generator(this, function (_a) {
-                index = this.fleets.findIndex(function (f) { return f.getId() === fleet.getId(); });
-                if (index !== -1) {
-                    this.fleets[index] = fleet;
-                }
-                else {
-                    this.fleets.push(fleet);
-                }
-                return [2 /*return*/, fleet];
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var statement = database_1.database.prepare('INSERT INTO fleets (user_id) VALUES (?)');
+                        statement.run([userId], function (err) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                resolve(new fleet_1.Fleet(this.lastID, userId, []));
+                            }
+                            statement.finalize();
+                        });
+                    })];
+            });
+        });
+    };
+    FleetRepository.prototype.registerVehicle = function (plateNumber, fleetId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var statement = database_1.database.prepare('INSERT INTO vehicle_fleets (plate_number, fleet_id) VALUES (?, ?)');
+                        statement.run([plateNumber, fleetId], function (err) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                resolve();
+                            }
+                            statement.finalize();
+                        });
+                    })];
             });
         });
     };
     FleetRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fleets.find(function (fleet) { return fleet.getId() === id; }) || null];
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        database_1.database.get('SELECT * FROM fleets WHERE id = ?', [id], function (err, row) { return __awaiter(_this, void 0, void 0, function () {
+                            var _a, _b, _c;
+                            return __generator(this, function (_d) {
+                                switch (_d.label) {
+                                    case 0:
+                                        if (!err) return [3 /*break*/, 1];
+                                        reject(err);
+                                        return [3 /*break*/, 4];
+                                    case 1:
+                                        if (!!row) return [3 /*break*/, 2];
+                                        resolve(null);
+                                        return [3 /*break*/, 4];
+                                    case 2:
+                                        _a = resolve;
+                                        _b = fleet_1.Fleet.bind;
+                                        _c = [void 0, row.ID,
+                                            row.user_id];
+                                        return [4 /*yield*/, this.getAllVehiclesOfFleet(row.ID)];
+                                    case 3:
+                                        _a.apply(void 0, [new (_b.apply(fleet_1.Fleet, _c.concat([_d.sent()])))()]);
+                                        _d.label = 4;
+                                    case 4: return [2 /*return*/];
+                                }
+                            });
+                        }); });
+                    })];
+            });
+        });
+    };
+    FleetRepository.prototype.getAllVehiclesOfFleet = function (fleetId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var query = 'SELECT v.* FROM vehicles AS v JOIN vehicle_fleets AS vf ON v.plate_number = vf.plate_number AND vf.fleet_id = ?';
+                        database_1.database.all(query, [fleetId], function (err, rows) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                var vehicles = rows.map(function (row) {
+                                    var vehicle = new vehicle_1.Vehicle(row.ID, row.plate_number);
+                                    var location = new location_1.Location(row.latitude, row.longitude, row.altitude);
+                                    vehicle.setLocation(location);
+                                    return vehicle;
+                                });
+                                resolve(vehicles);
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    FleetRepository.prototype.deleteByOwnerId = function (userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var statement = database_1.database.prepare('DELETE FROM fleets WHERE user_id = ?');
+                        statement.run(userId, function (err) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                resolve();
+                            }
+                            statement.finalize();
+                        });
+                    })];
             });
         });
     };

@@ -46,24 +46,30 @@ var ParkVehicleHandler = /** @class */ (function () {
     }
     ParkVehicleHandler.prototype.handle = function (command) {
         return __awaiter(this, void 0, void 0, function () {
-            var vehicle, location, setLocationResult, savedVehicle;
+            var vehicle, location_2, setLocationResult, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.vehicleRepository.findByPlateNumber(command.plateNumber)];
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, this.vehicleRepository.findByPlateNumber(command.plateNumber)];
                     case 1:
                         vehicle = _a.sent();
                         if (!vehicle) {
                             return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested vehicle')];
                         }
-                        location = new location_1.Location(command.latitude, command.longitude);
-                        setLocationResult = vehicle.setLocation(location);
+                        location_2 = new location_1.Location(command.latitude, command.longitude, command.altitude);
+                        setLocationResult = vehicle.setLocation(location_2);
                         if (!setLocationResult.success) {
                             return [2 /*return*/, result_1.Result.failure(setLocationResult.error)];
                         }
-                        return [4 /*yield*/, this.vehicleRepository.save(vehicle)];
+                        return [4 /*yield*/, this.vehicleRepository.parkVehicle(command.plateNumber, location_2)];
                     case 2:
-                        savedVehicle = _a.sent();
-                        return [2 /*return*/, result_1.Result.success(savedVehicle)];
+                        _a.sent();
+                        return [2 /*return*/, result_1.Result.success(vehicle)];
+                    case 3:
+                        error_1 = _a.sent();
+                        return [2 /*return*/, result_1.Result.failure('An error occurred while parking the vehicle')];
+                    case 4: return [2 /*return*/];
                 }
             });
         });

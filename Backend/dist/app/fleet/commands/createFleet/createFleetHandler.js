@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.createFleetHandler = exports.CreateFleetHandler = void 0;
-var fleet_1 = require("../../../../domain/entities/fleet");
 var result_1 = require("../../../../domain/utility/result");
 var fleetRepository_1 = require("../../../../infra/repositories/fleetRepository");
 var CreateFleetHandler = /** @class */ (function () {
@@ -46,15 +45,19 @@ var CreateFleetHandler = /** @class */ (function () {
     }
     CreateFleetHandler.prototype.handle = function (command) {
         return __awaiter(this, void 0, void 0, function () {
-            var fleet, savedFleet;
+            var fleet, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        fleet = new fleet_1.Fleet(command.userId);
-                        return [4 /*yield*/, this.fleetRepository.save(fleet)];
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.fleetRepository.createFleet(command.userId)];
                     case 1:
-                        savedFleet = _a.sent();
-                        return [2 /*return*/, result_1.Result.success(savedFleet)];
+                        fleet = _a.sent();
+                        return [2 /*return*/, result_1.Result.success(fleet)];
+                    case 2:
+                        error_1 = _a.sent();
+                        return [2 /*return*/, result_1.Result.failure('An error occurred while creating the fleet')];
+                    case 3: return [2 /*return*/];
                 }
             });
         });

@@ -151,7 +151,14 @@ function main() {
                                 console.error('Longitude must be a number');
                                 return [2 /*return*/];
                             }
-                            parkVehicleIntoLocationCommand = new parkVehicleCommand_1.ParkVehicleCommand(fleetId, vehiclePlateNumber, lat, lng);
+                            if (alt) {
+                                alt = Number(alt);
+                                if (Number.isNaN(alt)) {
+                                    console.error('Altitude must be a number');
+                                    return [2 /*return*/];
+                                }
+                            }
+                            parkVehicleIntoLocationCommand = new parkVehicleCommand_1.ParkVehicleCommand(fleetId, vehiclePlateNumber, lat, lng, alt);
                             return [4 /*yield*/, parkVehicleHandler_1.parkVehicleHandler.handle(parkVehicleIntoLocationCommand)];
                         case 1:
                             result = _a.sent();

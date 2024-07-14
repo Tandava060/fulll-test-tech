@@ -37,29 +37,87 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.vehicleRepository = exports.VehicleRepository = void 0;
+var vehicle_1 = require("../../domain/entities/vehicle");
+var database_1 = require("../database");
+var location_1 = require("../../domain/valueObjects/location");
 var VehicleRepository = /** @class */ (function () {
     function VehicleRepository() {
-        this.vehicles = [];
     }
-    VehicleRepository.prototype.save = function (vehicle) {
-        return __awaiter(this, void 0, void 0, function () {
-            var index;
-            return __generator(this, function (_a) {
-                index = this.vehicles.findIndex(function (v) { return v.getPlateNumber() === vehicle.getPlateNumber(); });
-                if (index !== -1) {
-                    this.vehicles[index] = vehicle;
-                }
-                else {
-                    this.vehicles.push(vehicle);
-                }
-                return [2 /*return*/, vehicle];
-            });
-        });
-    };
     VehicleRepository.prototype.findByPlateNumber = function (plateNumber) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.vehicles.find(function (vehicle) { return vehicle.getPlateNumber() === plateNumber; })];
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        database_1.database.get('SELECT * FROM vehicles WHERE plate_number = ?', [plateNumber], function (err, row) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                if (!row) {
+                                    resolve(null);
+                                }
+                                else {
+                                    var vehicle = new vehicle_1.Vehicle(row.ID, row.plate_number);
+                                    var location_2 = new location_1.Location(row.latitude, row.longitude, row.altitude);
+                                    vehicle.setLocation(location_2);
+                                    resolve(vehicle);
+                                }
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    VehicleRepository.prototype.createVehicle = function (plateNumber) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var statement = database_1.database.prepare('INSERT INTO vehicles (plate_number, latitude, longitude, altitude) VALUES (?, ?, ?, ?)');
+                        statement.run([plateNumber, null, null, null], function (err) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                resolve(new vehicle_1.Vehicle(this.lastID, plateNumber));
+                            }
+                            statement.finalize();
+                        });
+                    })];
+            });
+        });
+    };
+    VehicleRepository.prototype.parkVehicle = function (plateNumber, location) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var statement = database_1.database.prepare('UPDATE vehicles SET latitude = ?, longitude = ?, altitude =? WHERE plate_number = ?');
+                        statement.run([location.latitude, location.longitude, location.altitude, plateNumber], function (err) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                resolve();
+                            }
+                            statement.finalize();
+                        });
+                    })];
+            });
+        });
+    };
+    VehicleRepository.prototype.deleteByPlateNumber = function (plateNumber) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var statement = database_1.database.prepare('DELETE FROM vehicles WHERE plate_number = ?');
+                        statement.run(plateNumber, function (err) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                resolve();
+                            }
+                            statement.finalize();
+                        });
+                    })];
             });
         });
     };

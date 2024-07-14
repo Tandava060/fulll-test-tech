@@ -45,16 +45,22 @@ var GetVehicleLocationQueryHandler = /** @class */ (function () {
     }
     GetVehicleLocationQueryHandler.prototype.handle = function (command) {
         return __awaiter(this, void 0, void 0, function () {
-            var vehicle;
+            var vehicle, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.vehicleRepository.findByPlateNumber(command.vehiclePlateNumber)];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.vehicleRepository.findByPlateNumber(command.vehiclePlateNumber)];
                     case 1:
                         vehicle = _a.sent();
                         if (!vehicle) {
                             return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested vehicle')];
                         }
                         return [2 /*return*/, result_1.Result.success(vehicle.getLocation())];
+                    case 2:
+                        error_1 = _a.sent();
+                        return [2 /*return*/, result_1.Result.failure('An error occurred while retrieving the vehicle location')];
+                    case 3: return [2 /*return*/];
                 }
             });
         });

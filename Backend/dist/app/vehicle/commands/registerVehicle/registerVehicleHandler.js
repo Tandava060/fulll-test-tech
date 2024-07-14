@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.registerVehicleHandler = exports.RegisterVehicleHandler = void 0;
-var vehicle_1 = require("../../../../domain/entities/vehicle");
 var vehicleRepository_1 = require("../../../../infra/repositories/vehicleRepository");
 var fleetRepository_1 = require("../../../../infra/repositories/fleetRepository");
 var result_1 = require("../../../../domain/utility/result");
@@ -48,33 +47,38 @@ var RegisterVehicleHandler = /** @class */ (function () {
     }
     RegisterVehicleHandler.prototype.handle = function (command) {
         return __awaiter(this, void 0, void 0, function () {
-            var vehicle, fleet, addVehicleResult;
+            var vehicle, fleet, addVehicleResult, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.vehicleRepository.findByPlateNumber(command.plateNumber)];
+                    case 0:
+                        _a.trys.push([0, 6, , 7]);
+                        return [4 /*yield*/, this.vehicleRepository.findByPlateNumber(command.plateNumber)];
                     case 1:
                         vehicle = _a.sent();
                         return [4 /*yield*/, this.fleetRepository.findById(command.fleetId)];
                     case 2:
                         fleet = _a.sent();
-                        if (!!vehicle) return [3 /*break*/, 4];
-                        vehicle = new vehicle_1.Vehicle(command.plateNumber);
-                        return [4 /*yield*/, vehicleRepository_1.vehicleRepository.save(vehicle)];
-                    case 3:
-                        _a.sent();
-                        _a.label = 4;
-                    case 4:
                         if (!fleet) {
                             return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested fleet')];
                         }
+                        if (!!vehicle) return [3 /*break*/, 4];
+                        return [4 /*yield*/, vehicleRepository_1.vehicleRepository.createVehicle(command.plateNumber)];
+                    case 3:
+                        vehicle = _a.sent();
+                        _a.label = 4;
+                    case 4:
                         addVehicleResult = fleet.addVehicle(vehicle);
                         if (!addVehicleResult.success) {
                             return [2 /*return*/, result_1.Result.failure(addVehicleResult.error)];
                         }
-                        return [4 /*yield*/, this.fleetRepository.save(fleet)];
+                        return [4 /*yield*/, this.fleetRepository.registerVehicle(command.plateNumber, command.fleetId)];
                     case 5:
                         _a.sent();
                         return [2 /*return*/, result_1.Result.success(vehicle)];
+                    case 6:
+                        error_1 = _a.sent();
+                        return [2 /*return*/, result_1.Result.failure('An error occurred while registering the vehicle into fleet')];
+                    case 7: return [2 /*return*/];
                 }
             });
         });

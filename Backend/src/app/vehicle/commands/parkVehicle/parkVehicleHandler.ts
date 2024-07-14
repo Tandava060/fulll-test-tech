@@ -11,6 +11,7 @@ export class ParkVehicleHandler {
     constructor(private vehicleRepository: VehicleRepository) {}
 
     async handle(command: ParkVehicleCommand): Promise<Result<Vehicle>> {
+        try {
         const vehicle: Vehicle | null =
             await this.vehicleRepository.findByPlateNumber(command.plateNumber)
 
@@ -20,7 +21,8 @@ export class ParkVehicleHandler {
 
         const location: Location = new Location(
             command.latitude,
-            command.longitude
+            command.longitude,
+            command.altitude
         )
 
         const setLocationResult = vehicle.setLocation(location)
@@ -29,9 +31,12 @@ export class ParkVehicleHandler {
             return Result.failure(setLocationResult.error!)
         }
 
-        const savedVehicle = await this.vehicleRepository.save(vehicle)
+        await this.vehicleRepository.parkVehicle(command.plateNumber, location)
 
-        return Result.success(savedVehicle)
+        return Result.success(vehicle)
+    } catch (error) {
+        return Result.failure('An error occurred while parking the vehicle')
+    }
     }
 }
 

@@ -21,7 +21,7 @@ Given('the fleet of another user', async function () {
         if (!result.success) {
             this.error = result.error
         } else {
-            this.fleetId2 = result.data.getId()
+            this.fleetId2 = result.data?.getId()
         }
     } catch (error) {
         this.error = error
@@ -91,7 +91,7 @@ Then('this vehicle should be part of my vehicle fleet', async function () {
         this.error = result.error
     }
 
-    const isVehicleInFleet: boolean = result.data
+    const isVehicleInFleet: boolean = result.data ? result.data : false
 
     assert.strictEqual(isVehicleInFleet, true)
 })

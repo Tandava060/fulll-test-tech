@@ -7,8 +7,7 @@ export class Vehicle {
     private plateNumber: string
     private location?: Location
 
-    constructor(plateNumber: string) {
-        Vehicle.counter++
+    constructor(id:number, plateNumber: string) {
         this.id = Vehicle.counter
         this.plateNumber = plateNumber
     }

@@ -3,8 +3,7 @@ exports.__esModule = true;
 exports.Vehicle = void 0;
 var result_1 = require("../utility/result");
 var Vehicle = /** @class */ (function () {
-    function Vehicle(plateNumber) {
-        Vehicle.counter++;
+    function Vehicle(id, plateNumber) {
         this.id = Vehicle.counter;
         this.plateNumber = plateNumber;
     }

@@ -18,7 +18,7 @@ Given('my fleet', async function () {
             this.error = fleetResult.error
         } else {
             this.fleet = fleetResult.data
-            this.fleetId = fleetResult.data.getId()
+            this.fleetId = fleetResult.data?.getId()
         }
     } catch (error) {
         this.error = error

@@ -127,12 +127,22 @@ async function main(): Promise<void> {
                 return;
             }
 
+            if (alt) {
+                alt = Number(alt);
+
+                if (Number.isNaN(alt)) {
+                    console.error('Altitude must be a number');
+                    return;
+                }
+            }
+
 
             const parkVehicleIntoLocationCommand = new ParkVehicleCommand(
                 fleetId,
                 vehiclePlateNumber,
                 lat,
-                lng
+                lng,
+                alt
             )
 
             const result = await parkVehicleHandler.handle(

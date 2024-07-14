@@ -3,11 +3,10 @@ exports.__esModule = true;
 exports.Fleet = void 0;
 var result_1 = require("../utility/result");
 var Fleet = /** @class */ (function () {
-    function Fleet(userId) {
-        Fleet.counter++;
-        this.id = Fleet.counter;
+    function Fleet(id, userId, vehicles) {
+        this.id = id;
         this.userId = userId;
-        this.vehicles = [];
+        this.vehicles = vehicles;
     }
     Fleet.prototype.getId = function () {
         return this.id;
@@ -30,7 +29,6 @@ var Fleet = /** @class */ (function () {
         this.vehicles.push(vehicleToAdd);
         return result_1.Result.success();
     };
-    Fleet.counter = 0;
     return Fleet;
 }());
 exports.Fleet = Fleet;
