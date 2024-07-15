@@ -14,9 +14,12 @@ export class CreateFleetHandler {
     }
 
     async handle(command: CreateFleetCommand): Promise<Result<Fleet>> {
-        const fleet: Fleet = new Fleet(command.userId)
-        const savedFleet = await this.fleetRepository.save(fleet)
-        return Result.success(savedFleet)
+        try {
+            const fleet = await this.fleetRepository.createFleet(command.userId)
+            return Result.success(fleet)
+        } catch (error) {
+            return Result.failure('An error occurred while creating the fleet')
+        }
     }
 }
 

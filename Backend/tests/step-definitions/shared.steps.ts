@@ -3,14 +3,14 @@ import { CreateFleetCommand } from '../../src/app/fleet/commands/createFleet/cre
 import { createFleetHandler } from '../../src/app/fleet/commands/createFleet/createFleetHandler'
 import { RegisterVehicleCommand } from '../../src/app/vehicle/commands/registerVehicle/registerVehicleCommand'
 import { registerVehicleHandler } from '../../src/app/vehicle/commands/registerVehicle/registerVehicleHandler'
+import { TESTUSERID, TESTVEHICLEPLATE } from '../constants'
 
-const USERID: number = 20
-const VEHICLEPLATE = 'ABC123'
+
 
 Given('my fleet', async function () {
     try {
         const createFleetCommand: CreateFleetCommand = new CreateFleetCommand(
-            USERID
+            TESTUSERID
         )
 
         const fleetResult = await createFleetHandler.handle(createFleetCommand)
@@ -18,7 +18,7 @@ Given('my fleet', async function () {
             this.error = fleetResult.error
         } else {
             this.fleet = fleetResult.data
-            this.fleetId = fleetResult.data.getId()
+            this.fleetId = fleetResult.data?.getId()
         }
     } catch (error) {
         this.error = error
@@ -26,7 +26,7 @@ Given('my fleet', async function () {
 })
 
 Given('a vehicle', async function () {
-    this.vehicleNumber = VEHICLEPLATE
+    this.vehicleNumber = TESTVEHICLEPLATE
 })
 
 Given('I have registered this vehicle into my fleet', async function () {

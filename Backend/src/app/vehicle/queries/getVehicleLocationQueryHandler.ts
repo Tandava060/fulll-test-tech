@@ -15,15 +15,20 @@ export class GetVehicleLocationQueryHandler {
     }
 
     async handle(command: GetVehicleLocationQuery): Promise<Result<Location>> {
-        const vehicle: Vehicle = await this.vehicleRepository.findByPlateNumber(
-            command.vehiclePlateNumber
-        )
-
-        if (!vehicle) {
-            return Result.failure('Unable to retrieve the requested vehicle')
+        try {
+            const vehicle: Vehicle = await this.vehicleRepository.findByPlateNumber(
+                command.vehiclePlateNumber
+            )
+    
+            if (!vehicle) {
+                return Result.failure('Vehicle does not exists!')
+            }
+    
+            return Result.success(vehicle.getLocation())
+        } catch (error) {
+            return Result.failure('An error occurred while retrieving the vehicle location')
         }
-
-        return Result.success(vehicle.getLocation())
+        
     }
 }
 

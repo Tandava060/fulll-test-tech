@@ -6,14 +6,14 @@ import { CreateFleetCommand } from '../../src/app/fleet/commands/createFleet/cre
 import { createFleetHandler } from '../../src/app/fleet/commands/createFleet/createFleetHandler'
 import { isVehicleInFleetQueryHandler } from '../../src/app/fleet/queries/IsVehicleInFleetQueryHandler'
 import { IsVehicleInFleetQuery } from '../../src/app/fleet/queries/IsVehicleInFleetQuery'
+import { TESTUSERID2, TESTVEHICLEPLATE } from '../constants'
 
-const USERID2: number = 2
-const VEHICLEPLATE = 'ABC123'
+
 
 Given('the fleet of another user', async function () {
     try {
         const createFleetCommand: CreateFleetCommand = new CreateFleetCommand(
-            USERID2
+            TESTUSERID2
         )
 
         const result = await createFleetHandler.handle(createFleetCommand)
@@ -21,7 +21,7 @@ Given('the fleet of another user', async function () {
         if (!result.success) {
             this.error = result.error
         } else {
-            this.fleetId2 = result.data.getId()
+            this.fleetId2 = result.data?.getId()
         }
     } catch (error) {
         this.error = error
@@ -33,7 +33,7 @@ Given(
     async function () {
         try {
             const registerVehicleCommand: RegisterVehicleCommand =
-                new RegisterVehicleCommand(this.fleetId2, VEHICLEPLATE)
+                new RegisterVehicleCommand(this.fleetId2, TESTVEHICLEPLATE)
             const result = await registerVehicleHandler.handle(
                 registerVehicleCommand
             )
@@ -51,7 +51,7 @@ Given(
 When('I register this vehicle into my fleet', async function () {
     try {
         const registerVehicleCommand: RegisterVehicleCommand =
-            new RegisterVehicleCommand(this.fleetId, VEHICLEPLATE)
+            new RegisterVehicleCommand(this.fleetId, TESTVEHICLEPLATE)
         const result = await registerVehicleHandler.handle(
             registerVehicleCommand
         )
@@ -68,7 +68,7 @@ When('I register this vehicle into my fleet', async function () {
 When('I try to register this vehicle into my fleet', async function () {
     try {
         const registerVehicleCommand: RegisterVehicleCommand =
-            new RegisterVehicleCommand(this.fleetId, VEHICLEPLATE)
+            new RegisterVehicleCommand(this.fleetId, TESTVEHICLEPLATE)
         const result = await registerVehicleHandler.handle(
             registerVehicleCommand
         )
@@ -91,7 +91,7 @@ Then('this vehicle should be part of my vehicle fleet', async function () {
         this.error = result.error
     }
 
-    const isVehicleInFleet: boolean = result.data
+    const isVehicleInFleet: boolean = result.data ? result.data : false
 
     assert.strictEqual(isVehicleInFleet, true)
 })

@@ -2,16 +2,14 @@ import { Result } from '../utility/result'
 import { Vehicle } from './vehicle'
 
 export class Fleet {
-    private static counter: number = 0
     private id: number
     private vehicles: Vehicle[]
     private userId: number
 
-    constructor(userId: number) {
-        Fleet.counter++
-        this.id = Fleet.counter
+    constructor(id: number, userId: number, vehicles: Vehicle[]) {
+        this.id = id
         this.userId = userId
-        this.vehicles = []
+        this.vehicles = vehicles
     }
 
     getId(): number {

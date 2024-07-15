@@ -1,0 +1,1 @@
+{"version":3,"file":"registerVehicleCommand.js","sourceRoot":"","sources":["../../../../../src/app/vehicle/commands/registerVehicle/registerVehicleCommand.ts"],"names":[],"mappings":";;;AAAA;IACI,gCACW,OAAe,EACf,WAAmB;QADnB,YAAO,GAAP,OAAO,CAAQ;QACf,gBAAW,GAAX,WAAW,CAAQ;IAC3B,CAAC;IACR,6BAAC;AAAD,CAAC,AALD,IAKC;AALY,wDAAsB"}

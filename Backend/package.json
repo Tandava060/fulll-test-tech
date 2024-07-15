@@ -16,7 +16,14 @@
     "scripts": {
         "test": "cucumber-js --profile default",
         "format": "prettier --write .",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "build": "tsc",
+        "start": "node dist/index.js"
     },
-    "dependencies": {}
+    "dependencies": {
+        "@types/sqlite3": "^3.1.11",
+        "commander": "^12.1.0",
+        "figlet": "^1.7.0",
+        "sqlite3": "^5.1.7"
+    }
 }

@@ -3,6 +3,7 @@ export class ParkVehicleCommand {
         public fleetId: number,
         public plateNumber: string,
         public latitude: number,
-        public longitude: number
+        public longitude: number,
+        public altitude: number | null = null
     ) {}
 }
