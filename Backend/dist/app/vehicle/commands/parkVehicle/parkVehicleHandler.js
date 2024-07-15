@@ -55,7 +55,7 @@ var ParkVehicleHandler = /** @class */ (function () {
                     case 1:
                         vehicle = _a.sent();
                         if (!vehicle) {
-                            return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested vehicle')];
+                            return [2 /*return*/, result_1.Result.failure('Vehicle does not exists!')];
                         }
                         location_2 = new location_1.Location(command.latitude, command.longitude, command.altitude);
                         setLocationResult = vehicle.setLocation(location_2);

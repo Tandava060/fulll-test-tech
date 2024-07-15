@@ -16,7 +16,7 @@ export class ParkVehicleHandler {
             await this.vehicleRepository.findByPlateNumber(command.plateNumber)
 
         if (!vehicle) {
-            return Result.failure('Unable to retrieve the requested vehicle')
+            return Result.failure('Vehicle does not exists!')
         }
 
         const location: Location = new Location(

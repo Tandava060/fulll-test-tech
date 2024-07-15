@@ -54,7 +54,7 @@ var GetVehicleLocationQueryHandler = /** @class */ (function () {
                     case 1:
                         vehicle = _a.sent();
                         if (!vehicle) {
-                            return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested vehicle')];
+                            return [2 /*return*/, result_1.Result.failure('Vehicle does not exists!')];
                         }
                         return [2 /*return*/, result_1.Result.success(vehicle.getLocation())];
                     case 2:

@@ -59,7 +59,7 @@ var RegisterVehicleHandler = /** @class */ (function () {
                     case 2:
                         fleet = _a.sent();
                         if (!fleet) {
-                            return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested fleet')];
+                            return [2 /*return*/, result_1.Result.failure('Fleet does not exists!')];
                         }
                         if (!!vehicle) return [3 /*break*/, 4];
                         return [4 /*yield*/, vehicleRepository_1.vehicleRepository.createVehicle(command.plateNumber)];

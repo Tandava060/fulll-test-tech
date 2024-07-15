@@ -23,7 +23,7 @@ export class IsVehicleInFleetQueryHandler {
         )
 
         if (!fleet) {
-            return Result.failure('Unable to retrieve the requested fleet')
+            return Result.failure('Fleet does not exists!')
         }
 
         const vehicle: Vehicle | undefined =
@@ -32,7 +32,7 @@ export class IsVehicleInFleetQueryHandler {
             )
 
         if (!vehicle) {
-            return Result.failure('Unable to retrieve the requested vehicle')
+            return Result.failure('Vehicle does not exists!')
         }
 
         return Result.success(fleet.hasVehicle(vehicle))

@@ -54,13 +54,13 @@ var IsVehicleInFleetQueryHandler = /** @class */ (function () {
                     case 1:
                         fleet = _a.sent();
                         if (!fleet) {
-                            return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested fleet')];
+                            return [2 /*return*/, result_1.Result.failure('Fleet does not exists!')];
                         }
                         return [4 /*yield*/, this.vehicleRepository.findByPlateNumber(command.vehiclePlateNumber)];
                     case 2:
                         vehicle = _a.sent();
                         if (!vehicle) {
-                            return [2 /*return*/, result_1.Result.failure('Unable to retrieve the requested vehicle')];
+                            return [2 /*return*/, result_1.Result.failure('Vehicle does not exists!')];
                         }
                         return [2 /*return*/, result_1.Result.success(fleet.hasVehicle(vehicle))];
                 }

@@ -27,7 +27,7 @@ export class RegisterVehicleHandler {
             )
     
             if (!fleet) {
-                return Result.failure('Unable to retrieve the requested fleet')
+                return Result.failure('Fleet does not exists!')
             }
     
             if (!vehicle) {

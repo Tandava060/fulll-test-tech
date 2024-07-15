@@ -21,7 +21,7 @@ export class GetVehicleLocationQueryHandler {
             )
     
             if (!vehicle) {
-                return Result.failure('Unable to retrieve the requested vehicle')
+                return Result.failure('Vehicle does not exists!')
             }
     
             return Result.success(vehicle.getLocation())
